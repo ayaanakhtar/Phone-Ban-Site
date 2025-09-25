@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Campaign - Consolidated App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.47059;
+            color: #1d1d1f;
+            background: 
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"),
+                #d62e0d;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1500px;
+            width: 100%;
+        }
+
+        .hero-sentence {
+            font-family: 'Fivo Sans Modern Heavy', 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 125px;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            letter-spacing: -0.003em;
+        }
+
+        .blurb {
+            font-family: 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 21px;
+            font-weight: 400;
+            color: #FFFFFF;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            letter-spacing: 0.011em;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .input-container {
+            position: relative;
+            width: 280px;
+            height: 56px;
+            transform: skewX(-15deg);
+        }
+
+        .name-input {
+            font-family: 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            padding: 16px 24px;
+            font-size: 17px;
+            font-weight: 400;
+            border: none;
+            border-radius: 0;
+            background: #D4C8B5;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #000000;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.15), inset -2px -2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .name-input:focus {
+            outline: none;
+            box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.4);
+            background: #C5B8A3;
+        }
+
+        .placeholder-text {
+            position: absolute;
+            top: 50%;
+            left: 24px;
+            transform: translateY(-50%) skewX(15deg);
+            color: #000000;
+            font-style: italic;
+            font-family: 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .name-input:focus + .placeholder-text {
+            opacity: 0;
+        }
+
+        .submit-button {
+            width: 56px;
+            height: 56px;
+            border-radius: 0;
+            background: #000000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.15), inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+            transform: skewX(-15deg);
+        }
+
+        .submit-button:hover {
+            background: #D4C8B5;
+            box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.4);
+        }
+
+        .arrow-icon {
+            width: 18px;
+            height: 18px;
+            fill: #FFFFFF;
+            transform: skewX(15deg);
+        }
+
+        .submit-button:hover .arrow-icon {
+            fill: #1d1d1f;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 8px;
+        }
+
+        .anonymous-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: #D4C8B5;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-family: 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 17px;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .manifesto-button {
+            font-family: 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #000000;
+            color: #FFFFFF;
+            border: none;
+            padding: 16px 32px;
+            font-size: 17px;
+            font-weight: 400;
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.15), inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .manifesto-button:hover {
+            background: #D4C8B5;
+            color: #1d1d1f;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #D4C8B5;
+            border: none;
+            border-radius: 0;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .status-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Fivo Sans Modern', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .hero-sentence {
+                font-size: 60px;
+            }
+            
+            .blurb {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="hero-sentence">Reclaim Your Freedom.<br>End Phone Bans.</h1>
+        
+        <p class="blurb">
+            Cell-phones enable safety, access, and agency. Pledge your support to the only student-led movement against cell-phone bans, and help tackle this issue from the inside out.
+        </p>
+        
+        <div class="form-group">
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    class="name-input" 
+                    placeholder=""
+                    id="nameInput"
+                >
+                <div class="placeholder-text">
+                    Enter Name to Pledge
+                </div>
+            </div>
+            <button class="submit-button" onclick="handleSubmit()" id="submitButton">
+                <svg class="arrow-icon" viewBox="0 0 24 24">
+                    <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6-6 6-1.41-1.41z"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="checkbox-container">
+            <input type="checkbox" id="anonymousCheckbox" class="anonymous-checkbox">
+            <label for="anonymousCheckbox" class="checkbox-label">Submit Anonymously</label>
+        </div>
+        
+        <button class="manifesto-button" onclick="showManifesto()">
+            Manifesto
+        </button>
+    </div>
+
+    <!-- Manifesto Modal -->
+    <div class="modal-overlay" id="manifestoModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeManifesto()">&times;</span>
+            <h2>Our Manifesto</h2>
+            <div class="manifesto-content">
+                <h3>Transform Your Future Today</h3>
+                <p>We believe in the power of transformation. Every great journey begins with a single step, and every meaningful change starts with a decision to act.</p>
+                
+                <h3>Our Vision</h3>
+                <p>We envision a world where everyone has the tools, knowledge, and support they need to create the life they truly want.</p>
+                
+                <h3>Our Mission</h3>
+                <p>To empower individuals and communities to break through limitations, embrace their authentic selves, and build a future that reflects their deepest values and aspirations.</p>
+                
+                <h3>What We Stand For</h3>
+                <ul>
+                    <li><strong>Authenticity:</strong> We believe in being true to yourself and your values</li>
+                    <li><strong>Growth:</strong> Continuous learning and development are essential to human flourishing</li>
+                    <li><strong>Community:</strong> We are stronger together, supporting each other's journeys</li>
+                    <li><strong>Action:</strong> Ideas without action remain dreams; we focus on making things happen</li>
+                    <li><strong>Excellence:</strong> We strive for the highest standards in everything we do</li>
+                    <li><strong>Impact:</strong> Our success is measured by the positive change we create</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Replace with your actual Airtable credentials
+        const AIRTABLE_API_KEY = 'patIZeLFmGVEDn4kJ.b92c248b82ff8afbd56818f1c8ae6bf0305a5e684c1c1c8dea8eb41e122094e2';
+        const AIRTABLE_BASE_ID = 'appjpBQMdI7HlP9wm';
+        const AIRTABLE_TABLE_NAME = 'Submissions';
+
+        // Get user's IP address
+        async function getUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                return data.ip;
+            } catch (error) {
+                console.error('Error fetching IP:', error);
+                return 'Unknown';
+            }
+        }
+
+        // Format timestamp
+        function formatTimestamp() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = String(now.getFullYear()).slice(-2);
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+        }
+
+        // Submit to Airtable
+        async function submitToAirtable(name, isAnonymous, ipAddress) {
+            const finalName = isAnonymous ? 'Anonymous' : name;
+            const timestamp = formatTimestamp();
+            
+            const data = {
+                records: [
+                    {
+                        fields: {
+                            'Name': finalName,
+                            'IP Adress': ipAddress,
+                            'Timestamp': timestamp,
+                            'Anonymous': isAnonymous
+                        }
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const responseData = await response.json();
+                    console.log('Successfully submitted to Airtable:', responseData);
+                    return { success: true, data: responseData };
+                } else {
+                    const errorData = await response.json();
+                    console.error('Airtable API Error:', response.status, errorData);
+                    return { success: false, error: errorData };
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Handle form submission
+        async function handleSubmit() {
+            const nameInput = document.getElementById('nameInput');
+            const anonymousCheckbox = document.getElementById('anonymousCheckbox');
+            const name = nameInput.value.trim();
+            const isAnonymous = anonymousCheckbox.checked;
+            
+            // Validate input
+            if (!name && !isAnonymous) {
+                showStatus('Please enter your name or check anonymous', 'error');
+                return;
+            }
+
+            try {
+                // Get IP address
+                const ipAddress = await getUserIP();
+                
+                // Submit to Airtable
+                const result = await submitToAirtable(name, isAnonymous, ipAddress);
+                
+                if (result.success) {
+                    showStatus('Pledge submitted successfully!', 'success');
+                    nameInput.value = '';
+                    anonymousCheckbox.checked = false;
+                } else {
+                    showStatus('Failed to submit pledge. Please try again.', 'error');
+                }
+            } catch (error) {
+                console.error('Error in submission process:', error);
+                showStatus('An error occurred. Please try again.', 'error');
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            // Remove existing status messages
+            const existingStatus = document.querySelector('.status-message');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+
+            // Create new status message
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status-message ${type}`;
+            statusDiv.textContent = message;
+            
+            // Insert after the form
+            const formGroup = document.querySelector('.form-group');
+            formGroup.parentNode.insertBefore(statusDiv, formGroup.nextSibling);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Show manifesto modal
+        function showManifesto() {
+            document.getElementById('manifestoModal').style.display = 'flex';
+        }
+
+        // Close manifesto modal
+        function closeManifesto() {
+            document.getElementById('manifestoModal').style.display = 'none';
+        }
+
+        // Handle placeholder text visibility
+        function handlePlaceholderVisibility() {
+            const nameInput = document.getElementById('nameInput');
+            const placeholderText = document.querySelector('.placeholder-text');
+            
+            if (nameInput.value.trim() === '') {
+                placeholderText.style.display = 'block';
+            } else {
+                placeholderText.style.display = 'none';
+            }
+        }
+
+        // Handle anonymous checkbox
+        function handleAnonymousCheckbox() {
+            const nameInput = document.getElementById('nameInput');
+            const anonymousCheckbox = document.getElementById('anonymousCheckbox');
+            
+            if (anonymousCheckbox.checked) {
+                nameInput.disabled = true;
+                nameInput.value = '';
+                handlePlaceholderVisibility();
+            } else {
+                nameInput.disabled = false;
+                handlePlaceholderVisibility();
+            }
+        }
+
+        // Initialize event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('nameInput');
+            const anonymousCheckbox = document.getElementById('anonymousCheckbox');
+            
+            nameInput.addEventListener('input', handlePlaceholderVisibility);
+            nameInput.addEventListener('blur', handlePlaceholderVisibility);
+            anonymousCheckbox.addEventListener('change', handleAnonymousCheckbox);
+            
+            // Allow Enter key to submit
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSubmit();
+                }
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('manifestoModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeManifesto();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
